@@ -40,7 +40,7 @@
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 				<div class="form-group">
 					<label for="nombre">Numero Documento</label>
-					<input type="text" name="num_documento" required value="{{old('numero_documento')}}" class="form-control" placeholder="Numero Documento...">
+					<input type="text" name="num_documento" required value="{{old('num_documento')}}" class="form-control" placeholder="Numero Documento...">
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

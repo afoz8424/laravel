@@ -5,7 +5,7 @@
 			<h3>Listado de Proveedores
 				<a href="proveedor/create"><button class="btn btn-success">Nuevo</button></a>
 			</h3>
-			@include('ventas.proveedor.search')
+			@include('compras.proveedor.search')
 		</div>
 	</div>
 	<div class="row">
@@ -38,7 +38,7 @@
 								</a>
 							</td>
 						</tr>
-						@include('ventas.proveedor.modal')
+						@include('compras.proveedor.modal')
 					@endforeach
 				</table>
 			</div>

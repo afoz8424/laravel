@@ -4,6 +4,11 @@ namespace sisVentas\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use sisVentas\Persona;
+use Illuminate\Support\Facades\Redirect;
+use sisVentas\Http\Requests\PersonaFormRequest;
+use Illuminate\Support\Facades\DB;
+
 class ProveedorController extends Controller
 {
     /**
@@ -21,7 +26,7 @@ class ProveedorController extends Controller
             ->where("tipo_persona","=","Proveedor")
             ->orderBy("idpersona","desc")
             ->simplePaginate(7);
-            return view('ventas.proveedor.index',["personas"=>$personas,"searchText"=>$query]);
+            return view('compras.proveedor.index',["personas"=>$personas,"searchText"=>$query]);
         }
     }
 
@@ -32,7 +37,7 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-        return view("ventas.proveedor.create");
+        return view("compras.proveedor.create");
     }
 
     /**
@@ -52,7 +57,7 @@ class ProveedorController extends Controller
         $persona->telefono = $request->get('telefono');
         $persona->email = $request->get('email');
         $persona->save();
-        return Redirect::to('ventas/proveedor');
+        return Redirect::to('compras/proveedor');
     }
 
     /**
@@ -63,7 +68,7 @@ class ProveedorController extends Controller
      */
     public function show($id)
     {
-        return view("ventas.proveedor.show",["persona"=>Persona::findOrFail($id)]);
+        return view("compras.proveedor.show",["persona"=>Persona::findOrFail($id)]);
     }
 
     /**
@@ -74,7 +79,7 @@ class ProveedorController extends Controller
      */
     public function edit($id)
     {
-        return view("ventas.proveedor.edit",["persona"=>Persona::findOrFail($id)]);
+        return view("compras.proveedor.edit",["persona"=>Persona::findOrFail($id)]);
     }
 
     /**
@@ -94,7 +99,7 @@ class ProveedorController extends Controller
         $persona->telefono = $request->get('telefono');
         $persona->email = $request->get('email');
         $persona->save();
-        return Redirect::to('ventas/proveedor');
+        return Redirect::to('compras/proveedor');
     }
 
     /**
@@ -108,6 +113,6 @@ class ProveedorController extends Controller
         $persona=Persona::findOrFail($id);
         $persona->tipo_persona='Inactivo';
         $persona->save();
-        return Redirect::to('ventas/proveedor');
+        return Redirect::to('compras/proveedor');
     }
 }
