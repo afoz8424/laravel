@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\PrivateMessage;
+use App\Conversation;
 use App\User;
+
+
 
 class UsersController extends Controller
 {
@@ -55,6 +59,46 @@ class UsersController extends Controller
         return view('users.follows',[
             'user' => $user,
             'follows' => $user->followers,
+        ]);
+    }
+
+    public function sendPrivateMessage($username, Request $request)
+    {
+        $user = $this->findByUsername($username);
+
+        $me = $request->user();
+        $message = $request->input('message');
+
+        $conversation = Conversation::between($me,$user);
+
+        $PrivateMessage = PrivateMessage::create([
+            'conversation_id' => $conversation->id,
+            'user_id' => $me->id,
+            'message' => $message,
+        ]);
+
+        return redirect('/conversations/'.$conversation->id);
+    }
+
+    public function showConversation(Conversation $conversation)
+    {
+        $conversation->load('users','privateMessages');
+
+        //validando si el usuario en sesión es parte de la conversación
+        $me=auth()->user(); 
+        $validator=false;
+        foreach($conversation->users as $user){
+            if(($user->username)==$me->username){
+              $validator=true;
+            }
+        }
+        if($validator==false){
+            return redirect('/');
+        }
+        
+        return view('users.conversation',[
+            'conversation' => $conversation,
+            'user' => auth()->user(),
         ]);
     }
 
