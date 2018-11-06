@@ -9,15 +9,16 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    
 </head>
 <body>
     <div id="app" class="container">
@@ -33,7 +34,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <form action="/messages">
+                                <div class="input-group">
+                                    <input type="text" name="query" class="form-control" placeholder="Search..."  required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-outline-success">Search</button>
+                                    </span>
+                                </div>
+                                
+                            </form>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -49,6 +60,16 @@
                                 @endif
                             </li>
                         @else
+                            {{-- <li class="nav-item dropdown mr-2">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    Notifications 
+                                    
+                                    <span class="caret"></span>
+                                </a>
+                                
+                                <notification :userid="{{auth()->id()}}" :unreads="{{auth()->user()->unreadNotifications}}"></notification>
+                            </li> --}}
+                            <notifications :user="{{Auth::user()->id}}"></notifications>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -76,5 +97,8 @@
             @yield('content')
         </main>
     </div>
+    <!-- Scripts -->
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

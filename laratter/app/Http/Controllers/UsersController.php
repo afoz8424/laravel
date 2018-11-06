@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\PrivateMessage;
 use App\Conversation;
 use App\User;
-
-
+use App\Notifications\UserFollowed;
 
 class UsersController extends Controller
 {
@@ -28,6 +27,7 @@ class UsersController extends Controller
 
         $me = $request->user();
         $me->follows()->attach($user);
+        $user->notify(new UserFollowed($me));
 
         return redirect("/$username")->withSuccess('Followed');
     }
@@ -104,6 +104,20 @@ class UsersController extends Controller
 
     private function findByUsername($username)
     {
-        return User::where('username',$username)->first();
-    } 
+        return User::where('username',$username)->firstOrFail();
+    }
+
+    public function notifications(Request $request)
+    {
+        return $request->user()->unreadNotifications;
+    }
+
+    public function deleteNotifications(Request $request,$id,$username)
+    {
+        $request->user()->unreadNotifications
+            ->where('id',$id)
+            ->markAsRead();
+        return redirect("/$username");
+    }
+
 }
